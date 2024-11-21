@@ -1,15 +1,13 @@
 import './App.css'
+import { BrowserRouter as Router } from 'react-router-dom';
+import Page from './pages/Page'
 
 function App() {
 
   return (
-    <>
-      <div>
-        <h1 className="text-4xl font-bold underline">
-          Hello world!
-        </h1>
-      </div>
-    </>
+    <Router>
+      <Page />
+    </Router>
   )
 }
 
