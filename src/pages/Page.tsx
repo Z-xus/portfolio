@@ -1,4 +1,4 @@
-import { Bot, Download, Github, Linkedin, Mail, Moon, Twitter } from 'lucide-react'
+import { ArrowDownRight, Bot, Download, Github, Linkedin, Mail, Moon, Twitter } from 'lucide-react'
 import { Link } from 'react-router-dom';
 import { useState } from 'react'
 
@@ -7,18 +7,25 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
+import { LngLatLike } from "maplibre-gl";
+
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import MapComponent from '@/Map';
 
 export default function Page() {
   const [chatOpen, setChatOpen] = useState(true)
   const [copied, setCopied] = useState(false);
   const [isDark, setIsDark] = useState(false)
   const email = import.meta.env.VITE_EMAIL;
+
+  const mumbaiCenter: LngLatLike = [72.8777, 19.0760];  // Mumbai center coordinates
+  const thaneCoords: LngLatLike = [72.9781, 19.2183];  // Thane coordinates
+
 
   const copyToClipboard = async () => {
     try {
@@ -33,7 +40,7 @@ export default function Page() {
 
   return (
     <div className={isDark ? 'dark' : ''}>
-      <div className="min-h-screen lg:px-48 bg-background text-foreground">
+      <div className="min-h-screen lg:px-96 bg-background text-foreground">
         {/* Navigation */}
         <nav className="flex items-center justify-between p-4 border-b">
           <Link to={import.meta.env.VITE_APP_URL} className="text-xl font-bold">
@@ -63,7 +70,19 @@ export default function Page() {
 
         {/* Main Content */}
         <main className="container mx-auto px-4 py-8">
-          <h1 className="text-2xl font-bold mb-8">Ask the chatbot anything about me ↘</h1>
+          <MapComponent height="240px" />
+          <h1 className="text-4xl font-bold mb-4">
+            hi naufil here <span className="wave">👋</span>
+          </h1>
+          <p className="text-lg mb-2">
+            20-year-old software developer from Mumbai, India
+          </p>
+          <p className="text-muted-foreground mb-6">
+            Full-stack dev, rocking Arch Linux and vibin' with my custom Neovim setup.
+          </p>
+          <Button variant="outline" className="mb-8" onClick={() => setChatOpen(!chatOpen)}>
+            Ask the chatbot anything about me <ArrowDownRight className="ml-2 h-4 w-4" />
+          </Button>
 
           {/* Resume Section */}
           <div className="flex gap-4 mb-8">
