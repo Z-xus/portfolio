@@ -20,12 +20,9 @@ import MapComponent from '@/Map';
 export default function Page() {
   const [chatOpen, setChatOpen] = useState(true)
   const [copied, setCopied] = useState(false);
-  const [isDark, setIsDark] = useState(false)
   const email = import.meta.env.VITE_EMAIL;
 
-  const mumbaiCenter: LngLatLike = [72.8777, 19.0760];  // Mumbai center coordinates
-  const thaneCoords: LngLatLike = [72.9781, 19.2183];  // Thane coordinates
-
+  const isDark = true;
 
   const copyToClipboard = async () => {
     try {
@@ -62,18 +59,24 @@ export default function Page() {
             <Button variant="ghost" size="icon" onClick={() => setChatOpen(!chatOpen)}>
               <Bot className="h-5 w-5" />
             </Button>
-            <Button variant="ghost" size="icon" onClick={() => setIsDark(!isDark)}>
-              <Moon className="h-5 w-5" />
-            </Button>
+
           </div>
         </nav>
 
         {/* Main Content */}
         <main className="container mx-auto px-4 py-8">
-          <MapComponent height="240px" />
-          <h1 className="text-4xl font-bold mb-4">
-            hi naufil here <span className="wave">👋</span>
-          </h1>
+          <div className="relative w-full">
+            <div className="relative w-full h-[240px]">
+              <MapComponent height="240px" />
+              <div
+                className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-background/30 z-[1]"
+                aria-hidden="true"
+              />
+            </div>
+            <h1 className="text-4xl relative bottom-10 left-4 text-zinc-200 z-10">
+              Hello,<br /> I'm Naufil <span className="wave">👋</span>
+            </h1>
+          </div>
           <p className="text-lg mb-2">
             20-year-old software developer from Mumbai, India
           </p>

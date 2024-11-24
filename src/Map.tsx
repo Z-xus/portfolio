@@ -17,46 +17,85 @@ const MapComponent: React.FC<MapComponentProps> = ({
   useEffect(() => {
     if (!mapContainer.current) return;
 
-    // Thane, Maharashtra coordinates
-    const THANE_COORDINATES = {
-      lng: 72.9777,
-      lat: 19.2183,
-      zoom: 8
+    const BHIWANDI_COORDINATES = {
+      lng: 73.0483,
+      lat: 19.3115,
+      zoom: 7
     };
+
 
     map.current = new maplibregl.Map({
       container: mapContainer.current,
+      attributionControl: false, // Disable attribution control
       style: {
         version: 8,
         sources: {
-          'osm': {
+          osm: {
             type: 'raster',
             tiles: [
               'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
               'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
-              'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
+              'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png',
             ],
             tileSize: 256,
-          }
+          },
+          textSource: {
+            type: 'geojson',
+            data: {
+              type: 'FeatureCollection',
+              features: [
+                {
+                  type: 'Feature',
+                  geometry: {
+                    type: 'Point',
+                    coordinates: [72.9777, 19.2183], // Example coordinates
+                  },
+                  properties: {
+                    name: 'Bhiwandi, Maharashtra', // Example text
+                  },
+                },
+              ],
+            },
+          },
         },
+        glyphs: 'https://fonts.openmaptiles.org/{fontstack}/{range}.pbf',
         layers: [
           {
             id: 'osm-tiles',
             type: 'raster',
             source: 'osm',
             paint: {
-              'raster-opacity': 1,
-              'raster-contrast': -0.5,
-              'raster-brightness-min': 0,
-              'raster-brightness-max': 0.3,
+              'raster-opacity': 0.9,
+              'raster-contrast': -0.1,    // More negative contrast for darker appearance
+              'raster-brightness-min': 1,
+              'raster-brightness-max': 0,  // Lower max brightness for darker theme
               'raster-saturation': -1
             }
-          }
-        ]
+          },
+          {
+            id: 'text-layer',
+            type: 'symbol',
+            source: 'textSource',
+            layout: {
+              'text-field': '{name}',
+              'text-size': 14,
+              'text-anchor': 'center',
+            },
+            paint: {
+              'text-color': '#FFFFFF',
+              'text-halo-color': '#000000',
+              'text-halo-width': 1,
+            },
+          },
+        ],
       },
-      center: [THANE_COORDINATES.lng, THANE_COORDINATES.lat],
-      zoom: THANE_COORDINATES.zoom
+      center: [72.9777, 19.2183],
+      zoom: 8,
     });
+
+    new maplibregl.Marker({ color: 'red' })
+      .setLngLat([BHIWANDI_COORDINATES.lng, BHIWANDI_COORDINATES.lat])
+      .addTo(map.current);
 
     return () => {
       map.current?.remove();
@@ -68,7 +107,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
       <div
         ref={mapContainer}
         style={{ width, height }}
-        className="map-container"
+        className="map-container rounded-lg"
       />
       <div className="absolute top-2 left-2 text-sm text-zinc-200">
         <TimeDisplay />
