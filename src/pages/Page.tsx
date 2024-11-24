@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 import MapComponent from '@/Map';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@radix-ui/react-tooltip';
+import SocialLinks from '@/ui/socials';
 
 export default function Page() {
   const [chatOpen, setChatOpen] = useState(true)
@@ -95,58 +96,7 @@ export default function Page() {
               </Tooltip>
             </TooltipProvider>
 
-
-            <TooltipProvider>
-              <Tooltip delayDuration={100}>
-                <TooltipTrigger asChild>
-
-                  <Link to={import.meta.env.VITE_LINKEDIN_URL} target="_blank">
-                    <Button variant="ghost" size="icon">
-                      <Linkedin className="h-5 w-5" />
-                    </Button>
-                  </Link>
-
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className="bg-zinc-700 rounded p-1 px-2 mb-1 text-sm">Linkedin</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-
-
-            <TooltipProvider>
-              <Tooltip delayDuration={100}>
-                <TooltipTrigger asChild>
-
-                  <Link to={import.meta.env.VITE_GITHUB_URL} target="_blank">
-                    <Button variant="ghost" size="icon">
-                      <Github className="h-5 w-5" />
-                    </Button>
-                  </Link>
-
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className="bg-zinc-700 rounded p-1 px-2 mb-1 text-sm">Github</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-
-            <TooltipProvider>
-              <Tooltip delayDuration={100}>
-                <TooltipTrigger asChild>
-
-                  <Link to={import.meta.env.VITE_TWITTER_URL} target="_blank">
-                    <Button variant="ghost" size="icon">
-                      <Twitter className="h-5 w-5" />
-                    </Button>
-                  </Link>
-
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className="bg-zinc-700 rounded p-1 px-2 mb-1 text-sm">Twitter</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <SocialLinks />
 
             <TooltipProvider>
               <Tooltip delayDuration={100}>
