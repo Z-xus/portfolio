@@ -1,4 +1,4 @@
-import { ArrowDownRight, Bot, Download, Github, Linkedin, Mail, Moon, Twitter } from 'lucide-react'
+import { ArrowDownRight, Bot, Download, Github, Linkedin, Mail, Twitter } from 'lucide-react'
 import { Link } from 'react-router-dom';
 import { useState } from 'react'
 
@@ -7,15 +7,8 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
-import { LngLatLike } from "maplibre-gl";
-
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import MapComponent from '@/Map';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@radix-ui/react-tooltip';
 
 export default function Page() {
   const [chatOpen, setChatOpen] = useState(true)
@@ -69,7 +62,7 @@ export default function Page() {
             <div className="relative w-full h-[240px]">
               <MapComponent height="240px" />
               <div
-                className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-background/30 z-[1]"
+                className="absolute inset-0 bg-gradient-to-t from-background/90  via-background/50 to-background/30 z-[1]"
                 aria-hidden="true"
               />
             </div>
@@ -90,42 +83,80 @@ export default function Page() {
           {/* Resume Section */}
           <div className="flex gap-4 mb-8">
             <TooltipProvider>
-              <Tooltip>
+              <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
                   <Button variant="outline">
                     Resume <Download className="ml-2 h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Not yet!</p>
+                  <p className="bg-zinc-700 rounded p-1 px-2 mb-1 text-sm">Not yet!</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
 
-            <Link to={import.meta.env.VITE_LINKEDIN_URL} target="_blank">
-              <Button variant="ghost" size="icon">
-                <Linkedin className="h-5 w-5" />
-              </Button>
-            </Link>
-            <Link to={import.meta.env.VITE_GITHUB_URL} target="_blank">
-              <Button variant="ghost" size="icon">
-                <Github className="h-5 w-5" />
-              </Button>
-            </Link>
-            <Link to={import.meta.env.VITE_TWITTER_URL} target="_blank">
-              <Button variant="ghost" size="icon">
-                <Twitter className="h-5 w-5" />
-              </Button>
-            </Link>
+
             <TooltipProvider>
-              <Tooltip>
+              <Tooltip delayDuration={100}>
+                <TooltipTrigger asChild>
+
+                  <Link to={import.meta.env.VITE_LINKEDIN_URL} target="_blank">
+                    <Button variant="ghost" size="icon">
+                      <Linkedin className="h-5 w-5" />
+                    </Button>
+                  </Link>
+
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="bg-zinc-700 rounded p-1 px-2 mb-1 text-sm">Linkedin</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+
+            <TooltipProvider>
+              <Tooltip delayDuration={100}>
+                <TooltipTrigger asChild>
+
+                  <Link to={import.meta.env.VITE_GITHUB_URL} target="_blank">
+                    <Button variant="ghost" size="icon">
+                      <Github className="h-5 w-5" />
+                    </Button>
+                  </Link>
+
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="bg-zinc-700 rounded p-1 px-2 mb-1 text-sm">Github</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            <TooltipProvider>
+              <Tooltip delayDuration={100}>
+                <TooltipTrigger asChild>
+
+                  <Link to={import.meta.env.VITE_TWITTER_URL} target="_blank">
+                    <Button variant="ghost" size="icon">
+                      <Twitter className="h-5 w-5" />
+                    </Button>
+                  </Link>
+
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="bg-zinc-700 rounded p-1 px-2 mb-1 text-sm">Twitter</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            <TooltipProvider>
+              <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
                   <Button variant="ghost" size="icon" onClick={copyToClipboard}>
                     <Mail className="h-5 w-5" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{copied ? "Email copied!" : "Click to copy email"}</p>
+                  <p className="bg-zinc-700 rounded p-1 px-2 mb-1 text-sm text-sm">{copied ? "Email copied!" : "Click to copy email"}</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>

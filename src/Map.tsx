@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
@@ -19,14 +19,14 @@ const MapComponent: React.FC<MapComponentProps> = ({
 
     const BHIWANDI_COORDINATES = {
       lng: 73.0483,
-      lat: 19.3115,
-      zoom: 7
+      lat: 19.3200,
+      zoom: 9
     };
 
 
     map.current = new maplibregl.Map({
       container: mapContainer.current,
-      attributionControl: false, // Disable attribution control
+      attributionControl: false,
       style: {
         version: 8,
         sources: {
@@ -48,10 +48,10 @@ const MapComponent: React.FC<MapComponentProps> = ({
                   type: 'Feature',
                   geometry: {
                     type: 'Point',
-                    coordinates: [72.9777, 19.2183], // Example coordinates
+                    coordinates: [BHIWANDI_COORDINATES.lng, BHIWANDI_COORDINATES.lat],
                   },
                   properties: {
-                    name: 'Bhiwandi, Maharashtra', // Example text
+                    name: 'Bhiwandi, Maharashtra',
                   },
                 },
               ],
@@ -89,7 +89,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
           },
         ],
       },
-      center: [72.9777, 19.2183],
+      center: [72.9777, 19.1683],
       zoom: 8,
     });
 
@@ -116,9 +116,10 @@ const MapComponent: React.FC<MapComponentProps> = ({
   );
 };
 
+
 // Separate component for time display
 const TimeDisplay: React.FC = () => {
-  const [time, setTime] = React.useState<Date>(new Date());
+  const [time, setTime] = useState<Date>(new Date());
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -128,20 +129,45 @@ const TimeDisplay: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
+  const hour = time.getHours();
+  const isDayTime = hour >= 5 && hour < 18;
+
   return (
     <div className="flex items-center">
-      <MoonIcon className="mr-2" />
+      {isDayTime ? <SunIcon className="mr-2 size-8" /> : <MoonIcon className="mr-2" />}
       {time.toLocaleTimeString('en-US', {
         hour: 'numeric',
         minute: '2-digit',
         hour12: true,
-        timeZone: 'Asia/Kolkata'
-      })} IST
+        timeZone: 'Asia/Kolkata',
+      })}{' '}
+      IST
     </div>
   );
 };
 
-// Simple moon icon component
+
+const SunIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 64 64"
+    style={{
+      fillRule: 'evenodd',
+      clipRule: 'evenodd',
+      strokeLinecap: 'round',
+      strokeLinejoin: 'round',
+      strokeMiterlimit: 2,
+    }}
+    className={className}
+  >
+    <circle cx="32" cy="32" r="12" style={{ fill: 'currentcolor', stroke: '#222a33', strokeWidth: '1.5px' }} />
+    <path
+      d="M39.682 35.636A8.483 8.483 0 0 1 34.2 40.21M32 16V8M40.907 16.572l2.186-3.785M48.214 23.546l3.785-2.185M48 32h8M49 41.815 52.785 44M42.269 48.214l2.185 3.785M32 48v8M23.093 47.428l-2.186 3.785M17.358 41.361l-3.785 2.185M16 32H8M18.144 24l-3.785-2.185M24.454 17.358l-2.185-3.785"
+      style={{ fill: 'none', stroke: 'currentcolor', strokeWidth: '1.5px' }}
+    />
+  </svg>
+);
+
 const MoonIcon: React.FC<{ className?: string }> = ({ className }) => (
   <svg
     viewBox="0 0 24 24"
@@ -155,5 +181,4 @@ const MoonIcon: React.FC<{ className?: string }> = ({ className }) => (
     />
   </svg>
 );
-
 export default MapComponent;
