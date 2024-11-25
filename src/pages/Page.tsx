@@ -3,13 +3,12 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 import MapComponent from '@/Map';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@radix-ui/react-tooltip';
 import SocialLinks from '@/ui/socials';
+import { AnimatedChat, CollapsedChat } from '@/ui/chat';
 
 export default function Page() {
   const [chatOpen, setChatOpen] = useState(true)
@@ -32,6 +31,7 @@ export default function Page() {
   return (
     <div className={isDark ? 'dark' : ''}>
       <div className="min-h-screen lg:px-96 bg-background text-foreground">
+        <div className=" absolute top-1/4 right-3/4 w-96 h-96 bg-zinc-700 opacity-30 rounded-full blur-3xl" />
         {/* Navigation */}
         <nav className="flex items-center justify-between p-4 border-b">
           <Link to={import.meta.env.VITE_APP_URL} className="text-xl font-bold">
@@ -60,8 +60,16 @@ export default function Page() {
         {/* Main Content */}
         <main className="container mx-auto px-4 py-8">
           <div className="relative w-full">
-            <div className="relative w-full h-[240px]">
-              <MapComponent height="240px" />
+            <div className="relative w-full h-[280px]">
+              {
+                // <MapComponent height="240px" />
+              }
+              <div className="size-2 animate-ping bg-zinc-400 rounded-full absolute top-11 right-1/3" />
+              <img
+                src="/map-image.png"
+                alt="Mumbai skyline"
+                className="object-cover object-[center_30%] w-full h-full rounded-lg"
+              />
               <div
                 className="absolute inset-0 bg-gradient-to-t from-background/90  via-background/50 to-background/30 z-[1]"
                 aria-hidden="true"
@@ -75,8 +83,11 @@ export default function Page() {
             20-year-old software developer from Mumbai, India
           </p>
           <p className="text-muted-foreground mb-6">
-            Full-stack dev, rocking Arch Linux and vibin' with my custom Neovim setup.
+            Full-stack developer crafting real-world solutions | Linux tinkerer with a practical edge
           </p>
+          {
+            // <p>Linux tinkerer with a practical edge</p>
+          }
           <Button variant="outline" className="mb-8" onClick={() => setChatOpen(!chatOpen)}>
             Ask the chatbot anything about me <ArrowDownRight className="ml-2 h-4 w-4" />
           </Button>
@@ -124,14 +135,14 @@ export default function Page() {
                   <img
                     src="indian-navy-logo.png"
                     alt="Indian Navy Logo"
-                    width={48}
-                    height={48}
-                    className="rounded-full"
+                    width={64}
+                    height={64}
+                    className="rounded-md"
                   />
                   <div>
                     <div className="text-sm text-gray-500">Jan 2023 - Jun 2023</div>
                     <h3 className="text-lg font-semibold">Indian Navy | General Technologies Pvt. Ltd.</h3>
-                    <div className="text-gray-600">Jr. Software Engieer</div>
+                    <div className="text-gray-600">Jr. Software Engieer (Contractor via General Technologies Pvt. Ltd.)</div>
                     <ul className="list-disc ml-4 mt-2 text-sm space-y-2">
                       <li>
                         Customized and enhanced open-source software solutions to meet the specific needs of the Indian Navy, while implementing robust cybersecurity measures to protect web applications and critical systems.
@@ -149,11 +160,11 @@ export default function Page() {
               <div className="space-y-6">
                 <div className="flex gap-4 items-start border-l-2 border-gray-200 pl-4 ml-2 pt-4">
                   <img
-                    src="spit-logo.png"
+                    src="spit-logo.jpg"
                     alt="University Logo"
-                    width={48}
-                    height={48}
-                    className="rounded-full"
+                    width={64}
+                    height={64}
+                    className="rounded-full object-contain"
                   />
                   <div>
                     <div className="text-sm text-gray-500">2023 - 2026</div>
@@ -173,28 +184,10 @@ export default function Page() {
           </Tabs>
 
           {/* Chatbot */}
-          {chatOpen && (
-            <Card className="fixed bottom-20 right-4 w-80">
-              <CardContent className="p-4">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="h-2 w-2 bg-green-500 rounded-full" />
-                  <h3 className="font-semibold">Nauf Support</h3>
-                </div>
-                <div className="text-center my-8">
-                  <Bot className="mx-auto h-12 w-12 mb-4" />
-                  <p className="text-sm text-gray-600">Send a message to start the chat!</p>
-                  <p className="text-xs text-gray-500 mt-2">
-                    You can ask the bot anything about me and it will help to find the relevant information!
-                  </p>
-                </div>
-                <div className="flex gap-2">
-                  <Input placeholder="Ask something..." />
-                  <Button variant="secondary" size="icon">
-                    <Mail className="h-4 w-4" />
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+          {chatOpen ? (
+            <AnimatedChat isOpen={chatOpen} onClose={() => setChatOpen(false)} />
+          ) : (
+            <CollapsedChat onClick={() => setChatOpen(true)} />
           )}
         </main>
       </div>
